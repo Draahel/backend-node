@@ -1,5 +1,5 @@
 const { faker } = require('@faker-js/faker');
-
+const boom = require('@hapi/boom');
 class ProductsService {
 
   constructor(){
@@ -14,6 +14,7 @@ class ProductsService {
         name: faker.commerce.productName(),
         price: parseInt(faker.commerce.price(), 10),
         image: faker.image.url(),
+        isBlocked: faker.datatype.boolean(),
       });
     }
   }
@@ -27,7 +28,13 @@ class ProductsService {
   };
 
   async findOne(id){
-    return this.products.find( product => product.id === id);
+    const product = this.products.find( product => product.id === id);
+    if (!product) {
+      throw boom.notFound('Product not found');
+    }else if(product.isBlocked){
+      throw boom.conflict('Acceso al producto denegado');
+    }
+    return product;
   }
 
   async create(data){
@@ -42,7 +49,7 @@ class ProductsService {
   async update(id, data){
     const index = this.products.findIndex( product => product.id === id);
     if (index === -1) {
-      throw new Error(`Product ${id} not exists`)
+      throw boom.notFound("Product nof found");
     }
     this.products[index] = {
       ...this.products[index],

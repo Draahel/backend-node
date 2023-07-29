@@ -1,5 +1,6 @@
 const express = require('express');
 const initRoutes = require('./routes');
+const { logError, handlerError, boomHandlerError } = require('./middlewares/errorHandler');
 
 const app = express();
 const port = 3000;
@@ -15,6 +16,10 @@ app.get('/home', (req, res) => {
 });
 
 initRoutes(app);
+
+app.use(logError);
+app.use(boomHandlerError);
+app.use(handlerError);
 
 app.listen(port, () =>{
   console.log('listening on port ',port);

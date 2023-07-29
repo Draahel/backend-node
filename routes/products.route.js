@@ -13,10 +13,14 @@ router.get('/', async(req, res) => {
   }
 });
 
-router.get('/:id', async(req, res) => {
-  const { id } = req.params;
-  const product = await productsService.findOne(id);
-  res.status(200).json(product);
+router.get('/:id', async(req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await productsService.findOne(id);
+    res.status(200).json(product);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.post('/', async(req, res) => {
@@ -25,14 +29,14 @@ router.post('/', async(req, res) => {
   res.status(201).json(newProduct);
 });
 
-router.patch('/:id', async(req, res) => {
+router.patch('/:id', async(req, res, next) => {
   try {
     const { id } = req.params;
     const { body } = req;
     const updatedProduct = await productsService.update(id, body);
     res.json(updatedProduct);
   } catch (error) {
-    res.status(404).json({message: error.message});
+    next(error);
   }
 });
 
