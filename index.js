@@ -1,7 +1,7 @@
 const express = require('express');
 const initRoutes = require('./routes');
 const cors = require('cors');
-const { logError, handlerError, boomHandlerError } = require('./middlewares/errorHandler');
+const { logError, handlerError, boomHandlerError, ormErrorHandler } = require('./middlewares/errorHandler');
 
 const app = express();
 const port = 3000;
@@ -31,6 +31,7 @@ app.get('/home', (req, res) => {
 initRoutes(app);
 
 app.use(logError);
+app.use(ormErrorHandler);
 app.use(boomHandlerError);
 app.use(handlerError);
 
