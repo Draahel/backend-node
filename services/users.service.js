@@ -1,13 +1,11 @@
 const { faker } = require('@faker-js/faker');
 const boom = require('@hapi/boom');
-const pool = require('../libs/postgres.pool');
-class ProductsService {
+const getConection = require('../libs/postgres');
+class UsersService {
 
   constructor(){
     this.products = [];
-    this.generate();
-    this.pool = pool;
-    this.pool.on('error', (err) => console.error(err));
+    // this.generate();
   }
 
   generate(){
@@ -23,8 +21,8 @@ class ProductsService {
   }
 
   async findAll(){
-    const query = 'SELECT * FROM tasks';
-    const response = await this.pool.query(query);
+    const client = await getConection()
+    const response = await client.query('Select * from tasks');
     return response.rows;
   };
 
@@ -69,4 +67,4 @@ class ProductsService {
   }
 }
 
-module.exports = ProductsService;
+module.exports = UsersService;
