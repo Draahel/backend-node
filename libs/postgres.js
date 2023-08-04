@@ -1,12 +1,14 @@
+//Conexion a la base de datos directamente con pg, sin ORM
+
 const { Client } = require('pg');
 
 async function getConnection(){
     const client = new Client({
-        host: 'localhost',
-        port: 5432,
-        user: 'my_user',
-        password: 'admin123',
-        database: 'my_store',
+        host: config.dbHost,
+        port: config.dbPort,
+        user: config.dbUser,
+        password: config.dbPassword,
+        database: config.dbName,
     });
     await client.connect();
     return client;

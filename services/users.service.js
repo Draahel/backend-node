@@ -1,6 +1,6 @@
 const { faker } = require('@faker-js/faker');
 const boom = require('@hapi/boom');
-const getConection = require('../libs/postgres');
+const { models } = require('../libs/sequelize');
 class UsersService {
 
   constructor(){
@@ -21,9 +21,7 @@ class UsersService {
   }
 
   async findAll(){
-    const client = await getConection()
-    const response = await client.query('Select * from tasks');
-    return response.rows;
+    return await models.User.findAll()
   };
 
   async findOne(id){

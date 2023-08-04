@@ -1,11 +1,23 @@
+//Conexion a la base de datos directamente con pg, sin ORM por medio de un pool
 const { Pool } = require('pg');
+const { config } = require('../config/config');
 
-const pool = new Pool({
-    host: 'localhost',
-    port: 5432,
-    user: 'my_user',
-    password: 'admin123',
-    database: 'my_store',
-});
+
+// Metodo de conexion por URI
+const USER = encodeURIComponent(config.dbUser);
+const PASSWORD = encodeURIComponent(config.dbPassword);
+
+const connectionString = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
+const pool = new Pool({ connectionString })
+
+
+// Metodo de conexion por variables de conexion
+// const pool = new Pool({
+//     host: config.dbHost,
+//     port: config.dbPort,
+//     user: config.dbUser,
+//     password: config.dbPassword,
+//     database: config.dbName,
+// });
 
 module.exports = pool;

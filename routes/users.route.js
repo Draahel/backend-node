@@ -7,7 +7,6 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const tasks = await usersService.findAll()
-    console.log('Tareas: ', tasks);
     res.json(tasks);
   } catch (error) {
     console.log(error);
