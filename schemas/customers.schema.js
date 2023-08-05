@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { createUserSchema, updateUserSchema } = require('./users.schema')
 
 const id = Joi.number().integer();
 const name = Joi.string().min(3).max(30);
@@ -16,18 +17,14 @@ const createCustomerSchema = Joi.object({
   name: name.required(),
   lastName: lastName.required(),
   phone: phone.required(),
-  userId: userId.required(),
-  // user: Joi.object({
-  //   email: email.required(),
-  //   password: password.required()
-  // })
+  user: createUserSchema.required(),
 });
 
 const updateCustomerSchema = Joi.object({
   name,
   lastName,
   phone,
-  userId
+  userId,
 });
 
 module.exports = { getCustomerSchema, createCustomerSchema, updateCustomerSchema };

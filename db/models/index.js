@@ -8,7 +8,8 @@ function setupModels(sequelize){
 
 
     //Asociar los modelos
-    Customer.associate(sequelize.models)
+    User.associate(sequelize.models);
+    Customer.associate(sequelize.models);
 }
 
 module.exports = setupModels;

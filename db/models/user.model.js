@@ -1,5 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-
+const { CUSTOMER_TABLE } = require('./customer.model')
 
 const USER_TABLE = 'users';
 
@@ -33,8 +33,11 @@ const UserSchema = {
 }
 
 class User extends Model {
-    static associate(){
-        //associate
+    static associate(models){
+        this.hasOne(models.Customer, {
+            as: 'customer',
+            foreignKey: 'userId'
+        });
     }
 
     static config(sequelize){
