@@ -6,12 +6,12 @@ const { UpdateProductSchema, createProductSchema, getProductSchema, deleteProduc
 const router = express.Router();
 const productsService = new ProductsService();
 
-router.get('/', async(req, res) => {
+router.get('/', async(req, res, next) => {
   try {
     const products = await productsService.findAll();
     res.status(200).json(products);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 });
 
@@ -30,10 +30,14 @@ router.get('/:id',
 
 router.post('/',
   validatorHandler(createProductSchema, 'body'),
-  async(req, res) => {
-    const { body } = req;
-    const newProduct = await productsService.create(body);
-    res.status(201).json(newProduct);
+  async(req, res, next) => {
+    try {
+      const { body } = req;
+      const newProduct = await productsService.create(body);
+      res.status(201).json(newProduct);
+    } catch (error) {
+      next(error);
+    }
   }
 );
 
@@ -54,13 +58,13 @@ router.patch('/:id',
 
 router.delete('/:id', 
   validatorHandler(deleteProductSchema, 'params'),
-  async(req, res) => {
+  async(req, res, next) => {
     try {
       const { id } = req.params;
       response = await productsService.delete(id);
       res.json(response);
     } catch (error) {
-      res.status(404).json({message: error.message});
+      next(error);
     }
   }
 );
