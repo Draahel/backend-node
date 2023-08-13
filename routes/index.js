@@ -8,7 +8,7 @@ const initRoutes = (app) => {
   const router = express.Router();
   app.use('/api/v1', router)
   router.use('/products', productsRouter);
-  router.use('/category', categoryRouter);
+  router.use('/categories', categoryRouter);
   router.use('/users', usersRouter);
   router.use('/customers', customerRouter);
 };
