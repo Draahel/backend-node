@@ -1,6 +1,7 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer();
+const categoryId = Joi.number().integer();
 const name = Joi.string().min(4).max(10);
 const description = Joi.string().min(10);
 const price = Joi.number().integer().min(10);
@@ -11,6 +12,7 @@ const createProductSchema = Joi.object({
     price: price.required(),
     description: description.required(),
     image: image.required(),
+    categoryId: categoryId.required(),
 });
 
 const UpdateProductSchema = Joi.object({
@@ -18,6 +20,7 @@ const UpdateProductSchema = Joi.object({
     price,
     description,
     image,
+    categoryId,
 });
 
 const getProductSchema = Joi.object({
@@ -32,5 +35,4 @@ module.exports = {
     createProductSchema,
     UpdateProductSchema,
     getProductSchema,
-    deleteProductSchema,
 }

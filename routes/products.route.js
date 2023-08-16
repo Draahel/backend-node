@@ -1,7 +1,7 @@
 const express = require('express');
 const ProductsService = require('../services/products.service');
 const validatorHandler = require('../middlewares/validatorHandler');
-const { UpdateProductSchema, createProductSchema, getProductSchema, deleteProductSchema } = require('../schemas/products.schema');
+const { UpdateProductSchema, createProductSchema, getProductSchema } = require('../schemas/products.schema');
 
 const router = express.Router();
 const productsService = new ProductsService();
@@ -57,7 +57,7 @@ router.patch('/:id',
 );
 
 router.delete('/:id', 
-  validatorHandler(deleteProductSchema, 'params'),
+  validatorHandler(getProductSchema, 'params'),
   async(req, res, next) => {
     try {
       const { id } = req.params;
