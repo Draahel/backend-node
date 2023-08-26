@@ -4,13 +4,18 @@ class OrdersService {
 
   constructor(){}
 
+  async findAll() {
+    return await models.Order.findAll();
+  }
+
   async findOne(id){
     const order = await models.Order.findByPk(id,{
       include: [
         {
           association: 'customer',
           include:['user']
-        }
+        },
+        'items'
       ]
     });
     if (!order) {
@@ -22,6 +27,11 @@ class OrdersService {
   async create(data){
     const order = await models.Order.create(data);
     return order;
+  }
+
+  async addItem(data){
+    const item = await models.OrderProduct.create(data);
+    return item;
   }
 }
 
